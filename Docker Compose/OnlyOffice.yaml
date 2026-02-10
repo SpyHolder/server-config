@@ -1,0 +1,87 @@
+name: big-bear-onlyoffice
+services:
+  app:
+    cpu_shares: 90
+    command: []
+    container_name: documentserver
+    deploy:
+      resources:
+        limits:
+          memory: 6048M
+    environment:
+      - JWT_ENABLED=true
+      - JWT_HEADER=Authorization
+      - JWT_SECRET=ini_kunci_onlyoffice
+    hostname: documentserver
+    image: onlyoffice/documentserver:9.1.0
+    labels:
+      icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/onlyoffice.png
+    ports:
+      - mode: ingress
+        target: 80
+        published: "7400"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /DATA/AppData/big-bear-onlyoffice/onlyoffice/logs
+        target: /var/log/onlyoffice
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /DATA/AppData/big-bear-onlyoffice/onlyoffice/data
+        target: /var/www/onlyoffice/Data
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /DATA/AppData/big-bear-onlyoffice/onlyoffice/lib
+        target: /var/lib/onlyoffice
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /DATA/AppData/big-bear-onlyoffice/onlyoffice/rabbitmq
+        target: /var/lib/rabbitmq
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /DATA/AppData/big-bear-onlyoffice/onlyoffice/redis
+        target: /var/lib/redis
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /DATA/AppData/big-bear-onlyoffice/onlyoffice/db
+        target: /var/lib/postgresql
+        bind:
+          create_host_path: true
+    devices: []
+    cap_add: []
+    networks:
+      - default
+    privileged: false
+networks:
+  default:
+    name: big-bear-onlyoffice_default
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  author: BigBearTechWorld
+  category: BigBearCasaOS
+  description:
+    en_us: Feature-rich web-based office suite with a vast range of collaborative
+      capabilities
+  developer: onlyoffice
+  hostname: ""
+  icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/onlyoffice.png
+  index: /
+  is_uncontrolled: false
+  main: app
+  port_map: "7400"
+  scheme: http
+  store_app_id: big-bear-onlyoffice
+  tagline:
+    en_us: OnlyOffice
+  thumbnail: ""
+  title:
+    custom: ""
+    en_us: OnlyOffice

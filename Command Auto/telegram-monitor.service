@@ -1,0 +1,15 @@
+# Ini script untuk menjadikan script cek_resource.sh menjadi sebuah service
+[Unit]
+Description=Telegram Monitoring Service untuk Proxmox
+After=network.target
+
+[Service]
+Type=simple
+# Pastikan lokasi file ini sesuai dengan tempat kamu menyimpan script
+ExecStart=/root/monitor_live.sh
+Restart=always
+RestartSec=10
+User=root
+
+[Install]
+WantedBy=multi-user.target
